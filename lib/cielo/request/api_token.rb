@@ -1,6 +1,8 @@
+require 'cielo/request/api_request'
+
 module Cielo
   module Request
-    class ApiToken
+    class ApiToken < ApiRequest
       attr_accessor :environment
       private :environment
       
@@ -11,7 +13,7 @@ module Cielo
       
       def generate_token(credit_card_params)
         uri = URI.parse([@environment.api, '1/card'].join(''))
-        send_request('POST', uri, credit_card_params)
+        Cielo::Response::Token.new(send_request('POST', uri, credit_card_params))
       end
     end
   end

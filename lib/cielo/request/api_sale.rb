@@ -2,7 +2,7 @@ require 'cielo/request/api_request'
 
 module Cielo
   module Request
-    class SaleRequest < ApiRequest
+    class ApiSale < ApiRequest
       attr_accessor :environment,
                     :type,
                     :service_tax_amount,
@@ -10,7 +10,7 @@ module Cielo
       
       private :environment, :type
       
-      def initialize(type, merchant, environment)
+      def initialize(merchant, environment, type = nil)
         super(merchant)
         @environment = environment
         @type = type
@@ -18,7 +18,7 @@ module Cielo
       
       def create(sale)
         uri = URI.parse([@environment.api, '1/sales'].join(''))
-        send_request('POST', uri, sale)
+        Cielo::Response::Sale.new(send_request('POST', uri, sale))
       end
       
       def query(payment_id)
@@ -27,7 +27,7 @@ module Cielo
       end
       
       def update(payment_id)
-        uri = URI.parse([@environment.api, "1/sales/#{payment_id}"])
+        uri = URI.parse([@environment.api, "1/sales/#{payment_id}/#{type}"].join(''))
         params = {}
         params['amoun'] = amount if amount
         params['serviceTaxAmount'] = service_tax_amount if service_tax_amount
