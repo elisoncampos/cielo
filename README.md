@@ -1,28 +1,49 @@
-# Cielo30
-Short description and motivation.
+# Cielo
+Implementação simplificada da API 3.0 para projetos Rails. **Não recomendo utilizarem para produção a não ser que entendam 
+como as requisições API da Cielo funcionam**. A gem trata o minimo dos retornos e muitos métodos podem não estar implementados
 
-## Usage
-How to use my plugin.
+## Funcionalidades
 
-## Installation
-Add this line to your application's Gemfile:
+* [x] Transações usando cartão de crédito
+* [x] Tokenização de cartões
+* [x] Cancelamento de transações
+
+## Instalação
+
+A gem não está no RubyGems e até eu implementar mais funcionalidades, não vou publicar, então instale:
 
 ```ruby
-gem 'cielo30'
+gem 'cielo', github: 'elisoncampos/cielo'
 ```
 
-And then execute:
+E ai execute:
 ```bash
 $ bundle
 ```
 
-Or install it yourself as:
-```bash
-$ gem install cielo30
+## Utilizando o SDK
+
+### Criando Transação
+
+_(TBD)_
+
+### Cancelando Transação
+
+_(TBD)_
+
+### Criando um token para o cartão
+
+```ruby
+ merchant = Cielo.merchant('MERCHANT-ID', 'MERCHANT-KEY')
+ api = Cielo.client(merchant, Cielo::API30::Environment::sandbox)
+ 
+ credit_card_params = {
+    CustomerName: 'Comprador Teste Cielo',
+    CardNumber: '4532117080573700',
+    Holder: 'Comprador T Cielo',
+    ExpirationDate: '12/2030',
+    Brand: 'Visa'
+ }
+ token_request = api.tokenize_card(credit_card_params)
+ token = token_request.token
 ```
-
-## Contributing
-Contribution directions go here.
-
-## License
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
