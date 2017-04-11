@@ -15,12 +15,16 @@ module Cielo
       
       attr_reader :response,
                   :payment_id,
-                  :status
+                  :status,
+                  :return_code,
+                  :return_message
       
       def initialize(response)
         @response = response
         @payment_id = response['PaymentId']
         @status = response['Status']
+        @return_code = response['ReturnCode']
+        @return_message = response['ReturnMessage']
       end
 
       def response_hash
@@ -31,6 +35,10 @@ module Cielo
       
       def success?
         [AUTHORIZED, PAYMENT_CONFIRMED, VOIDED, REFUNDED, PENDING, SCHEDULED].include? @status
+      end
+
+      def error_message
+        "Erro: [#{@return_code}]: #{@return_message}"
       end
       
     end
