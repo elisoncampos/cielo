@@ -3,7 +3,7 @@ module Cielo
     class Void
       attr_reader :response
 
-      VOIDED = 10
+      VOIDED = 11
       REFUNDED = 10
 
       def initialize(response)
